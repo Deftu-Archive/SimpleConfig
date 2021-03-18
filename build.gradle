@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'ga.matthewtgm.tgmconfig'
+version '0.1'
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile('com.github.TGMDevelopment:JsonTGM:0.2.8')
+    compile('org.projectlombok:lombok:1.18.16')
+}
