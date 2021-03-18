@@ -4,20 +4,18 @@ import ga.matthewtgm.json.files.JsonReader;
 import ga.matthewtgm.json.files.JsonWriter;
 import ga.matthewtgm.json.objects.JsonArray;
 import ga.matthewtgm.json.objects.JsonObject;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.File;
 import java.util.Collection;
 
 public class TGMConfig {
 
-    @Getter @Setter private String name;
-    @Getter @Setter private File directory;
+    private String name;
+    private File directory;
 
-    @Getter @Setter private File fullPath;
+    private File fullPath;
 
-    @Getter @Setter private JsonObject configObj;
+    private JsonObject configObj;
 
     public TGMConfig(String name, File directory) {
         this.name = name;
@@ -56,7 +54,7 @@ public class TGMConfig {
         return this;
     }
 
-    public TGMConfig add(ConfigEntry entry) {
+    public TGMConfig add(ConfigEntry<?> entry) {
         configObj.add(entry.getName(), entry.getValue());
         return this;
     }
@@ -112,6 +110,26 @@ public class TGMConfig {
     }
     public JsonArray getValueAsJsonArray(String key) {
         return (JsonArray) configObj.get(key);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public File getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(File directory) {
+        this.directory = directory;
+    }
+
+    public File getFullPath() {
+        return fullPath;
+    }
+
+    public JsonObject getConfigObj() {
+        return configObj;
     }
 
 }

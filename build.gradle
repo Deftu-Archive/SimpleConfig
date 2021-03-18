@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'ga.matthewtgm.tgmconfig'
-version '0.1'
+version '0.0.1.1'
 
 repositories {
     mavenCentral()
@@ -12,5 +12,4 @@ repositories {
 
 dependencies {
     compile('com.github.TGMDevelopment:JsonTGM:0.2.8')
-    compile('org.projectlombok:lombok:1.18.16')
 }
