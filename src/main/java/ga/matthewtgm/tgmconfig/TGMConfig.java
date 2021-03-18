@@ -51,9 +51,14 @@ public class TGMConfig {
         JsonWriter.writeObj(name, configObj, directory);
     }
 
-    public JsonObject add(String key, Object value) {
+    public TGMConfig add(String key, Object value) {
         configObj.add(key, value);
-        return configObj;
+        return this;
+    }
+
+    public TGMConfig add(ConfigEntry entry) {
+        configObj.add(entry.getName(), entry.getValue());
+        return this;
     }
 
     public Collection<Object> values() {

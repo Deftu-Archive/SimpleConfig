@@ -6,11 +6,11 @@ import lombok.Setter;
 public class ConfigEntry<T> {
 
     @Getter @Setter private String name;
-    @Getter @Setter private T type;
+    @Getter @Setter private T value;
 
-    public ConfigEntry(String name, T type) {
+    public ConfigEntry(String name, T value) {
         this.name = name;
-        this.type = type;
+        this.value = value;
     }
 
 }
