@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group 'ga.matthewtgm.tgmconfig'
-version '0.0.1.1'
+group project.lib_group
+version project.lib_version
 
 repositories {
     mavenCentral()
@@ -11,5 +11,5 @@ repositories {
 }
 
 dependencies {
-    compile('com.github.TGMDevelopment:JsonTGM:0.2.8')
+    compile("${project.deps_jsontgm_group}:${project.deps_jsontgm_name}:${project.deps_jsontgm_version}")
 }

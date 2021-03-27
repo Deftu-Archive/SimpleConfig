@@ -13,26 +13,17 @@ public class TGMConfig {
     private String name;
     private File directory;
 
-    private File fullPath;
-
     private JsonObject configObj;
 
     public TGMConfig(String name, File directory) {
         this.name = name;
         this.directory = directory;
 
-        this.fullPath = new File(new File(name + ".json"), String.valueOf(directory));
-
-        this.configObj = new JsonObject();
-
-        try {
-            if (!this.fullPath.exists() || !this.fullPath.isFile()) {
-                if (!this.fullPath.exists()) this.fullPath.mkdirs();
-                this.fullPath.createNewFile();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (!(new File(directory, name + ".json")).exists()) {
+            configObj = new JsonObject();
+            save();
+        } else
+            configObj = new JsonObject();
     }
 
     public void sync() {
@@ -59,26 +50,18 @@ public class TGMConfig {
         return this;
     }
 
-    public Collection<Object> values() {
-        return configObj.values();
+    public TGMConfig replace(String key, Object value) {
+        configObj.replace(key, value);
+        return this;
     }
 
-    public <T> T get(String key, Class<?> type) {
-        if (!configObj.containsKey(key)) {
-            Object newVal = new Object();
-            if (type.isAssignableFrom(Boolean.class)) newVal = Boolean.FALSE;
-            if (type.isAssignableFrom(Double.class)) newVal = 0D;
-            if (type.isAssignableFrom(Float.class)) newVal = 0F;
-            if (type.isAssignableFrom(Long.class)) newVal = 0L;
-            if (type.isAssignableFrom(Integer.class)) newVal = 0;
-            if (type.isAssignableFrom(Short.class)) newVal = 0;
-            if (type.isAssignableFrom(Character.class)) newVal = 'A';
-            if (type.isAssignableFrom(Byte.class)) newVal = 0;
-            if (type.isAssignableFrom(JsonObject.class)) newVal = new JsonObject();
-            if (type.isAssignableFrom(JsonArray.class)) newVal = new JsonArray();
-            configObj.put(key, newVal);
-        }
-        return (T) configObj.get(key);
+    public TGMConfig replace(ConfigEntry<?> entry) {
+        configObj.replace(entry.getName(), entry.getValue());
+        return this;
+    }
+
+    public Collection<Object> values() {
+        return configObj.values();
     }
 
     public short getValueAsShort(String key) {
@@ -122,10 +105,6 @@ public class TGMConfig {
 
     public void setDirectory(File directory) {
         this.directory = directory;
-    }
-
-    public File getFullPath() {
-        return fullPath;
     }
 
     public JsonObject getConfigObj() {
