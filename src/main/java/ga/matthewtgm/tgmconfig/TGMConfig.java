@@ -64,35 +64,58 @@ public class TGMConfig {
         return configObj.values();
     }
 
-    public short getValueAsShort(String key) {
+    public short getAsShort(String key) {
         return (short) configObj.get(key);
     }
-    public int getValueAsInt(String key) {
+    public int getAsInt(String key) {
+        if (!configObj.containsKey(key))
+            return 0;
         return (int) configObj.get(key);
     }
-    public byte getValueAsByte(String key) {
+    public byte getAsByte(String key) {
+        if (!configObj.containsKey(key))
+            return 0;
         return (byte) configObj.get(key);
     }
-    public float getValueAsFloat(String key) {
+    public float getAsFloat(String key) {
+        if (!configObj.containsKey(key))
+            return 0.0f;
         return (float) configObj.get(key);
     }
-    public double getValueAsDouble(String key) {
+    public double getAsDouble(String key) {
+        if (!configObj.containsKey(key))
+            return 0.0d;
         return (double) configObj.get(key);
     }
-    public char getValueAsChar(String key) {
+    public char getAsChar(String key) {
+        if (!configObj.containsKey(key))
+            return 'a';
         return (char) configObj.get(key);
     }
-    public boolean getValueAsBoolean(String key) {
+    public boolean getAsBoolean(String key) {
+        if (!configObj.containsKey(key))
+            return false;
         return (boolean) configObj.get(key);
     }
-    public String getValueAsString(String key) {
+    public String getAsString(String key) {
+        if (!configObj.containsKey(key))
+            return "";
         return (String) configObj.get(key);
     }
-    public JsonObject getValueAsJsonObject(String key) {
+    public JsonObject getAsJsonObject(String key) {
+        if (!configObj.containsKey(key))
+            return new JsonObject();
         return (JsonObject) configObj.get(key);
     }
-    public JsonArray getValueAsJsonArray(String key) {
+    public JsonArray getAsJsonArray(String key) {
+        if (!configObj.containsKey(key))
+            return new JsonArray();
         return (JsonArray) configObj.get(key);
+    }
+    public <T> T getAs(String key) {
+        if (!configObj.containsKey(key))
+            return null;
+        return (T) configObj.get(key);
     }
 
     public String getName() {
