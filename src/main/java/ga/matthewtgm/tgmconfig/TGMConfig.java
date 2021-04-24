@@ -23,7 +23,7 @@ public class TGMConfig {
             configObj = new JsonObject();
             save();
         } else
-            configObj = new JsonObject();
+            configObj = JsonReader.readObj(name, directory);
     }
 
     public void sync() {
