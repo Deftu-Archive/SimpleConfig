@@ -1,9 +1,9 @@
-package ga.matthewtgm.tgmconfig;
+package xyz.matthewtgm.tgmconfig;
 
-import ga.matthewtgm.json.files.JsonReader;
-import ga.matthewtgm.json.files.JsonWriter;
-import ga.matthewtgm.json.objects.JsonArray;
-import ga.matthewtgm.json.objects.JsonObject;
+import xyz.matthewtgm.json.files.JsonReader;
+import xyz.matthewtgm.json.files.JsonWriter;
+import xyz.matthewtgm.json.objects.JsonArray;
+import xyz.matthewtgm.json.objects.JsonObject;
 
 import java.io.File;
 import java.util.Collection;

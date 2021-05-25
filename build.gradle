@@ -7,7 +7,10 @@ version project.lib_version
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io"
+    }
 }
 
 dependencies {

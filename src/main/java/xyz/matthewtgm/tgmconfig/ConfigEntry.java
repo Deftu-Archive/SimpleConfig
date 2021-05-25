@@ -1,4 +1,4 @@
-package ga.matthewtgm.tgmconfig;
+package xyz.matthewtgm.tgmconfig;
 
 public class ConfigEntry<T> {
 
