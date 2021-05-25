@@ -50,8 +50,53 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig addAndSave(ConfigEntry<?> entry) {
+        configObj.put(entry.getName(), entry.getValue());
+        save();
+        return this;
+    }
+
+    public TGMConfig addAll(Map<? extends String, ?> map) {
+        configObj.putAll(map);
+        return this;
+    }
+
+    public TGMConfig addAll(JsonObject jsonObject) {
+        configObj.putAll(jsonObject);
+        return this;
+    }
+
+    public TGMConfig addAll(TGMConfig config) {
+        configObj.putAll(config.getConfigObj());
+        return this;
+    }
+
+    public TGMConfig addAllAndSave(Map<? extends String, ?> map) {
+        addAll(map);
+        save();
+        return this;
+    }
+
+    public TGMConfig addAllAndSave(JsonObject jsonObject) {
+        addAll(jsonObject);
+        save();
+        return this;
+    }
+
+    public TGMConfig addAllAndSave(TGMConfig config) {
+        addAll(config);
+        save();
+        return this;
+    }
+
     public TGMConfig addIfAbsent(ConfigEntry<?> entry) {
         configObj.putIfAbsent(entry.getName(), entry.getValue());
+        return this;
+    }
+
+    public TGMConfig addIfAbsentAndSave(ConfigEntry<?> entry) {
+        configObj.putIfAbsent(entry.getName(), entry.getValue());
+        save();
         return this;
     }
 
@@ -60,8 +105,20 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig replaceAndSave(ConfigEntry<?> entry) {
+        configObj.replace(entry.getName(), entry.getValue());
+        save();
+        return this;
+    }
+
     public TGMConfig replaceAll(BiFunction<? super String, ? super Object, ?> function) {
         configObj.replaceAll(function);
+        return this;
+    }
+
+    public TGMConfig replaceAllAndSave(BiFunction<? super String, ? super Object, ?> function) {
+        configObj.replaceAll(function);
+        save();
         return this;
     }
 
@@ -71,8 +128,19 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig removeAndSave(ConfigEntry<?> entry) {
+        if (entry.getValue() instanceof String && ((String) entry.getValue()).isEmpty()) configObj.remove(entry.getName());
+        else configObj.remove(entry.getName(), entry.getValue());
+        save();
+        return this;
+    }
+
     public TGMConfig remove(String key) {
         return remove(new ConfigEntry<>(key, ""));
+    }
+
+    public TGMConfig removeAndSave(String key) {
+        return removeAndSave(new ConfigEntry<>(key, ""));
     }
 
     public TGMConfig compute(String key, BiFunction<? super String, ? super Object, ?> function) {
@@ -95,6 +163,25 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig merge(String key, Object value, BiFunction<? super Object, ? super Object, ?> function) {
+        configObj.merge(key, value, function);
+        return this;
+    }
+
+    public TGMConfig mergeAndSave(String key, Object value, BiFunction<? super Object, ? super Object, ?> function) {
+        configObj.merge(key, value, function);
+        save();
+        return this;
+    }
+
+    public int size() {
+        return configObj.size();
+    }
+
+    public boolean isEmpty() {
+        return configObj.isEmpty();
+    }
+
     public boolean containsKey(String key) {
         return configObj.containsKey(key);
     }
@@ -109,6 +196,34 @@ public class TGMConfig {
 
     public TGMConfig clear() {
         configObj.clear();
+        return this;
+    }
+
+    public TGMConfig clearIfAbsent(String key) {
+        if (!containsKey(key)) clear();
+        return this;
+    }
+
+    public TGMConfig clearIfPresent(String key) {
+        if (containsKey(key)) clear();
+        return this;
+    }
+
+    public TGMConfig clearAndSave() {
+        clear();
+        save();
+        return this;
+    }
+
+    public TGMConfig clearIfAbsentAndSave(String key) {
+        if (!containsKey(key)) clear();
+        save();
+        return this;
+    }
+
+    public TGMConfig clearIfPresentAndSave(String key) {
+        if (containsKey(key)) clear();
+        save();
         return this;
     }
 
