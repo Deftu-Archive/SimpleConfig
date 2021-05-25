@@ -7,6 +7,11 @@ import xyz.matthewtgm.json.objects.JsonObject;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class TGMConfig {
 
@@ -40,18 +45,13 @@ public class TGMConfig {
         JsonWriter.writeObj(name, configObj, directory);
     }
 
-    public TGMConfig add(String key, Object value) {
-        configObj.add(key, value);
-        return this;
-    }
-
     public TGMConfig add(ConfigEntry<?> entry) {
-        configObj.add(entry.getName(), entry.getValue());
+        configObj.put(entry.getName(), entry.getValue());
         return this;
     }
 
-    public TGMConfig replace(String key, Object value) {
-        configObj.replace(key, value);
+    public TGMConfig addIfAbsent(ConfigEntry<?> entry) {
+        configObj.putIfAbsent(entry.getName(), entry.getValue());
         return this;
     }
 
@@ -60,10 +60,73 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig replaceAll(BiFunction<? super String, ? super Object, ?> function) {
+        configObj.replaceAll(function);
+        return this;
+    }
+
+    public TGMConfig remove(ConfigEntry<?> entry) {
+        if (entry.getValue() instanceof String && ((String) entry.getValue()).isEmpty()) configObj.remove(entry.getName());
+        else configObj.remove(entry.getName(), entry.getValue());
+        return this;
+    }
+
+    public TGMConfig remove(String key) {
+        return remove(new ConfigEntry<>(key, ""));
+    }
+
+    public TGMConfig compute(String key, BiFunction<? super String, ? super Object, ?> function) {
+        configObj.compute(key, function);
+        return this;
+    }
+
+    public TGMConfig computeIfAbsent(String key, Function<? super String, ?> function) {
+        configObj.computeIfAbsent(key, function);
+        return this;
+    }
+
+    public TGMConfig computeIfPresent(String key, BiFunction<? super String, ? super Object, ?> function) {
+        configObj.computeIfPresent(key, function);
+        return this;
+    }
+
+    public TGMConfig forEachEntry(BiConsumer<? super String, ? super Object> action) {
+        configObj.forEach(action);
+        return this;
+    }
+
+    public boolean containsKey(String key) {
+        return configObj.containsKey(key);
+    }
+
+    public boolean containsValue(Object value) {
+        return configObj.containsValue(value);
+    }
+
+    public boolean contains(Object key) {
+        return containsKey(key.toString()) || containsValue(key);
+    }
+
+    public TGMConfig clear() {
+        configObj.clear();
+        return this;
+    }
+
     public Collection<Object> values() {
         return configObj.values();
     }
 
+    public Set<String> keySet() {
+        return configObj.keySet();
+    }
+
+    public Set<Map.Entry<String, Object>> entrySet() {
+        return configObj.entrySet();
+    }
+
+    public Object get(String key) {
+        return configObj.get(key);
+    }
     public short getAsShort(String key) {
         return (short) configObj.get(key);
     }
@@ -116,6 +179,10 @@ public class TGMConfig {
         if (!configObj.containsKey(key))
             return null;
         return (T) configObj.get(key);
+    }
+
+    public String toJson() {
+        return configObj.toJson();
     }
 
     public String getName() {
