@@ -4,6 +4,7 @@ import xyz.matthewtgm.json.files.JsonReader;
 import xyz.matthewtgm.json.files.JsonWriter;
 import xyz.matthewtgm.json.objects.JsonArray;
 import xyz.matthewtgm.json.objects.JsonObject;
+import xyz.matthewtgm.json.parsing.JsonParser;
 
 import java.io.File;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 
 public class TGMConfig {
 
-    private String name;
+    private final String name;
     private File directory;
 
     private JsonObject configObj;
@@ -31,14 +32,32 @@ public class TGMConfig {
             configObj = JsonReader.readObj(name, directory);
     }
 
+    private TGMConfig(String name, File directory, JsonObject configObj) {
+        this.name = name;
+        this.directory = directory;
+        this.configObj = new JsonObject();
+        this.configObj.putAll(configObj);
+
+        if (!(new File(directory, name + ".json")).exists()) save();
+    }
+
+    public TGMConfig clone() {
+        return new TGMConfig(name, directory, configObj);
+    }
+
     public void sync() {
         try {
             JsonObject updated = JsonReader.readObj(name, directory);
             if (!configObj.equals(updated))
-                configObj = updated;
+                configObj.putAll(updated);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isSynced() {
+        JsonObject saved = JsonReader.readObj(name, directory);
+        return configObj.equals(saved);
     }
 
     public void save() {
@@ -47,6 +66,12 @@ public class TGMConfig {
 
     public TGMConfig add(ConfigEntry<?> entry) {
         configObj.put(entry.getName(), entry.getValue());
+        return this;
+    }
+
+    public TGMConfig syncAndAdd(ConfigEntry<?> entry) {
+        sync();
+        add(entry);
         return this;
     }
 
@@ -68,6 +93,24 @@ public class TGMConfig {
 
     public TGMConfig addAll(TGMConfig config) {
         configObj.putAll(config.getConfigObj());
+        return this;
+    }
+
+    public TGMConfig syncAndAddAll(Map<? extends String, ?> map) {
+        sync();
+        addAll(map);
+        return this;
+    }
+
+    public TGMConfig syncAndAddAll(JsonObject json) {
+        sync();
+        addAll(json);
+        return this;
+    }
+
+    public TGMConfig syncAndAddAll(TGMConfig config) {
+        sync();
+        addAll(config.getConfigObj());
         return this;
     }
 
@@ -227,6 +270,30 @@ public class TGMConfig {
         return this;
     }
 
+    public TGMConfig clearAndAdd(ConfigEntry<?> entry) {
+        clear();
+        add(entry);
+        return this;
+    }
+
+    public TGMConfig clearAndAddAll(Map<? extends String, ?> map) {
+        clear();
+        addAll(map);
+        return this;
+    }
+
+    public TGMConfig clearAndAddAll(JsonObject json) {
+        clear();
+        addAll(json);
+        return this;
+    }
+
+    public TGMConfig clearAndAddAll(TGMConfig config) {
+        clear();
+        addAll(config.getConfigObj());
+        return this;
+    }
+
     public Collection<Object> values() {
         return configObj.values();
     }
@@ -283,12 +350,14 @@ public class TGMConfig {
     public JsonObject getAsJsonObject(String key) {
         if (!configObj.containsKey(key))
             return new JsonObject();
-        return (JsonObject) configObj.get(key);
+        Object gotten = configObj.get(key);
+        return JsonParser.parseObj(gotten == null ? "{}" : gotten.toString());
     }
     public JsonArray getAsJsonArray(String key) {
         if (!configObj.containsKey(key))
             return new JsonArray();
-        return (JsonArray) configObj.get(key);
+        Object gotten = configObj.get(key);
+        return JsonParser.parseArr(gotten == null ? "{}" : gotten.toString());
     }
     public <T> T getAs(String key) {
         if (!configObj.containsKey(key))
@@ -310,6 +379,10 @@ public class TGMConfig {
 
     public void setDirectory(File directory) {
         this.directory = directory;
+    }
+
+    public File getConfigFile() {
+        return new File(directory, name + ".json");
     }
 
     public JsonObject getConfigObj() {
