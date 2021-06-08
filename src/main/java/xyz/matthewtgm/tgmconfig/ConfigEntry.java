@@ -14,16 +14,18 @@ public class ConfigEntry<T> {
         return name;
     }
 
-    public void setName(String name) {
+    public ConfigEntry<T> setName(String name) {
         this.name = name;
+        return this;
     }
 
     public T getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public ConfigEntry<T> setValue(T value) {
         this.value = value;
+        return this;
     }
 
 }

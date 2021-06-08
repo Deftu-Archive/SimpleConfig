@@ -4,7 +4,6 @@ import xyz.matthewtgm.json.files.JsonReader;
 import xyz.matthewtgm.json.files.JsonWriter;
 import xyz.matthewtgm.json.objects.JsonArray;
 import xyz.matthewtgm.json.objects.JsonObject;
-import xyz.matthewtgm.json.parsing.JsonParser;
 
 import java.io.File;
 import java.util.Collection;
@@ -14,36 +13,36 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@SuppressWarnings({"unused", "unchecked"})
 public class TGMConfig {
 
     private final String name;
     private File directory;
 
-    private JsonObject configObj;
+    private final JsonObject<String, Object> configObj;
 
     public TGMConfig(String name, File directory) {
         this.name = name;
         this.directory = directory;
 
         if (!(new File(directory, name + ".json")).exists()) {
-            configObj = new JsonObject();
+            configObj = new JsonObject<>();
             save();
-        } else
-            configObj = JsonReader.readObj(name, directory);
+        } else configObj = JsonReader.readObj(name, directory);
     }
 
-    private TGMConfig(String name, File directory, JsonObject configObj) {
+    private TGMConfig(String name, File directory, JsonObject<String, Object> configObj) {
         this.name = name;
         this.directory = directory;
-        this.configObj = new JsonObject();
+        this.configObj = new JsonObject<>();
         this.configObj.putAll(configObj);
-
         if (!(new File(directory, name + ".json")).exists()) save();
     }
 
     /**
      * @return a deep copy of the config.
      */
+    @SuppressWarnings("all")
     public TGMConfig clone() {
         return new TGMConfig(name, directory, configObj);
     }
@@ -53,9 +52,8 @@ public class TGMConfig {
      */
     public void sync() {
         try {
-            JsonObject updated = JsonReader.readObj(name, directory);
-            if (!configObj.equals(updated))
-                configObj.putAll(updated);
+            JsonObject<String, Object> updated = JsonReader.readObj(name, directory);
+            if (!configObj.equals(updated)) configObj.putAll(updated);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +63,7 @@ public class TGMConfig {
      * @return Whether or not the class is synced with the saved config.
      */
     public boolean isSynced() {
-        JsonObject saved = JsonReader.readObj(name, directory);
+        JsonObject<String, Object> saved = JsonReader.readObj(name, directory);
         return configObj.equals(saved);
     }
 
@@ -125,7 +123,7 @@ public class TGMConfig {
      * Adds all entries from the JsonObject to the config JSON.
      * @param jsonObject The object of which's entries to add.
      */
-    public TGMConfig addAll(JsonObject jsonObject) {
+    public TGMConfig addAll(JsonObject<String, Object> jsonObject) {
         configObj.putAll(jsonObject);
         return this;
     }
@@ -152,9 +150,9 @@ public class TGMConfig {
      * Syncs the config then adds all the entries in the JsonObject.
      * @param json The object of which's entries to add.
      */
-    public TGMConfig syncAndAddAll(JsonObject json) {
+    public TGMConfig syncAndAddAll(JsonObject<String, Object> json) {
         sync();
-        addAll(json);
+        addAll((Map<? extends String, ?>) json);
         return this;
     }
 
@@ -164,7 +162,7 @@ public class TGMConfig {
      */
     public TGMConfig syncAndAddAll(TGMConfig config) {
         sync();
-        addAll(config.getConfigObj());
+        addAll((Map<? extends String, ?>) config.getConfigObj());
         return this;
     }
 
@@ -182,8 +180,8 @@ public class TGMConfig {
      * Adds all entries in the JsonObject then saves.
      * @param jsonObject The object of which's entries to add.
      */
-    public TGMConfig addAllAndSave(JsonObject jsonObject) {
-        addAll(jsonObject);
+    public TGMConfig addAllAndSave(JsonObject<String, Object> jsonObject) {
+        addAll((Map<? extends String, ?>) jsonObject);
         save();
         return this;
     }
@@ -428,15 +426,15 @@ public class TGMConfig {
         return this;
     }
 
-    public TGMConfig clearAndAddAll(JsonObject json) {
+    public TGMConfig clearAndAddAll(JsonObject<String, Object> json) {
         clear();
-        addAll(json);
+        addAll((Map<? extends String, ?>) json);
         return this;
     }
 
     public TGMConfig clearAndAddAll(TGMConfig config) {
         clear();
-        addAll(config.getConfigObj());
+        addAll((Map<? extends String, ?>) config.getConfigObj());
         return this;
     }
 
@@ -464,59 +462,40 @@ public class TGMConfig {
     public Object get(String key) {
         return configObj.get(key);
     }
+    public long getAsLong(String key) {
+        return configObj.getAsLong(key);
+    }
     public short getAsShort(String key) {
-        return (short) configObj.get(key);
+        return configObj.getAsShort(key);
     }
     public int getAsInt(String key) {
-        if (!configObj.containsKey(key))
-            return 0;
-        return (int) configObj.get(key);
+        return configObj.getAsInt(key);
     }
     public byte getAsByte(String key) {
-        if (!configObj.containsKey(key))
-            return 0;
-        return (byte) configObj.get(key);
+        return configObj.getAsByte(key);
     }
     public float getAsFloat(String key) {
-        if (!configObj.containsKey(key))
-            return 0.0f;
-        return (float) configObj.get(key);
+        return configObj.getAsFloat(key);
     }
     public double getAsDouble(String key) {
-        if (!configObj.containsKey(key))
-            return 0.0d;
-        return (double) configObj.get(key);
+        return configObj.getAsDouble(key);
     }
     public char getAsChar(String key) {
-        if (!configObj.containsKey(key))
-            return 'a';
-        return (char) configObj.get(key);
+        return configObj.getAsChar(key);
     }
     public boolean getAsBoolean(String key) {
-        if (!configObj.containsKey(key))
-            return false;
-        return (boolean) configObj.get(key);
+        return configObj.getAsBoolean(key);
     }
     public String getAsString(String key) {
-        if (!configObj.containsKey(key))
-            return "";
-        return (String) configObj.get(key);
+        return configObj.getAsString(key);
     }
-    public JsonObject getAsJsonObject(String key) {
-        if (!configObj.containsKey(key))
-            return new JsonObject();
-        Object gotten = configObj.get(key);
-        return JsonParser.parseObj(gotten == null ? "{}" : gotten.toString());
+    public JsonObject<String, Object> getAsJsonObject(String key) {
+        return configObj.getAsJsonObject(key);
     }
-    public JsonArray getAsJsonArray(String key) {
-        if (!configObj.containsKey(key))
-            return new JsonArray();
-        Object gotten = configObj.get(key);
-        return JsonParser.parseArr(gotten == null ? "{}" : gotten.toString());
+    public JsonArray<Object> getAsJsonArray(String key) {
+        return configObj.getAsJsonArray(key);
     }
     public <T> T getAs(String key) {
-        if (!configObj.containsKey(key))
-            return null;
         return (T) configObj.get(key);
     }
 
@@ -540,7 +519,7 @@ public class TGMConfig {
         return new File(directory, name + ".json");
     }
 
-    public JsonObject getConfigObj() {
+    public JsonObject<String, Object> getConfigObj() {
         return configObj;
     }
 
