@@ -95,7 +95,7 @@ public class TGMConfig {
      * @param config The config to turn into a sub-configuration.
      */
     public TGMConfig addSubConfig(TGMConfig config) {
-        return add(new ConfigEntry<>(config.getName(), config.getConfigFile()));
+        return add(new ConfigEntry<>(config.getName(), config.getConfigObj()));
     }
 
     /**
