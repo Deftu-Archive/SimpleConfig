@@ -31,6 +31,12 @@ public class TGMConfig {
         } else configObj = JsonReader.readObj(name, directory);
     }
 
+    public TGMConfig(String name) {
+        this.name = name;
+        this.directory = null;
+        this.configObj = new JsonObject<>();
+    }
+
     private TGMConfig(String name, File directory, JsonObject<String, Object> configObj) {
         this.name = name;
         this.directory = directory;
@@ -51,6 +57,7 @@ public class TGMConfig {
      * Syncs the class with the saved config.
      */
     public void sync() {
+        if (directory == null) return;
         try {
             JsonObject<String, Object> updated = JsonReader.readObj(name, directory);
             if (!configObj.equals(updated)) configObj.putAll(updated);
@@ -63,6 +70,7 @@ public class TGMConfig {
      * @return Whether or not the class is synced with the saved config.
      */
     public boolean isSynced() {
+        if (directory == null) return true;
         JsonObject<String, Object> saved = JsonReader.readObj(name, directory);
         return configObj.equals(saved);
     }
@@ -71,6 +79,7 @@ public class TGMConfig {
      * Saves the config, the saved config JSON is "pretty".
      */
     public void save() {
+        if (directory == null) return;
         JsonWriter.writeObj(name, configObj, directory, true);
     }
 
@@ -78,6 +87,7 @@ public class TGMConfig {
      * Saves the config with raw JSON, no indents.
      */
     public void rawSave() {
+        if (directory == null) return;
         JsonWriter.writeObj(name, configObj, directory);
     }
 
