@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group project.lib_group
-version project.lib_version
+group = project.lib_group
+version = project.lib_version
 
 repositories {
     mavenCentral()

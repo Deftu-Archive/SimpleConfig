@@ -91,6 +91,22 @@ public class TGMConfig {
     }
 
     /**
+     * Creates a sub-category configuration.
+     * @param config The config to turn into a sub-configuration.
+     */
+    public TGMConfig addSubConfig(TGMConfig config) {
+        return add(new ConfigEntry<>(config.getName(), config.getConfigFile()));
+    }
+
+    /**
+     * Returns a sub-category configuration with the specified name.
+     * @param name The name of the sub-configuration to fetch.
+     */
+    public TGMConfig getSubConfig(String name) {
+        return new TGMConfig(name, directory, configObj.getAsJsonObject(name));
+    }
+
+    /**
      * Syncs the config then adds the entry.
      * @param entry The entry to add.
      */
