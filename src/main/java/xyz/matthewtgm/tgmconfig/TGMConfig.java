@@ -37,6 +37,12 @@ public class TGMConfig {
         this.configObj = new JsonObject<>();
     }
 
+    public TGMConfig(String name, JsonObject<String, Object> configObj) {
+        this.name = name;
+        this.directory = null;
+        this.configObj = configObj;
+    }
+
     private TGMConfig(String name, File directory, JsonObject<String, Object> configObj) {
         this.name = name;
         this.directory = directory;
@@ -113,7 +119,7 @@ public class TGMConfig {
      * @param name The name of the sub-configuration to fetch.
      */
     public TGMConfig getSubConfig(String name) {
-        return new TGMConfig(name, directory, configObj.getAsJsonObject(name));
+        return new TGMConfig(name, configObj.getAsJsonObject(name));
     }
 
     /**
