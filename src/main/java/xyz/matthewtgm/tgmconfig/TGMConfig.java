@@ -86,7 +86,7 @@ public class TGMConfig {
      */
     public void save() {
         if (directory == null) return;
-        JsonWriter.writeObj(name, configObj, directory, true);
+        JsonWriter.write(name, configObj, directory, true);
     }
 
     /**
@@ -94,7 +94,7 @@ public class TGMConfig {
      */
     public void rawSave() {
         if (directory == null) return;
-        JsonWriter.writeObj(name, configObj, directory);
+        JsonWriter.write(name, configObj, directory);
     }
 
     /**
@@ -521,10 +521,10 @@ public class TGMConfig {
     public String getAsString(String key) {
         return configObj.getAsString(key);
     }
-    public JsonObject<String, Object> getAsJsonObject(String key) {
-        return configObj.getAsJsonObject(key);
+    public <V> JsonObject<String, V> getAsJsonObject(String key) {
+        return (JsonObject<String, V>) configObj.getAsJsonObject(key);
     }
-    public JsonArray<Object> getAsJsonArray(String key) {
+    public <T> JsonArray<T> getAsJsonArray(String key) {
         return configObj.getAsJsonArray(key);
     }
     public <T> T getAs(String key) {
@@ -553,6 +553,10 @@ public class TGMConfig {
 
     public JsonObject<String, Object> getConfigObj() {
         return configObj;
+    }
+
+    public JsonObject<String, Object> cloneConfigObj() {
+        return configObj.cloneJson();
     }
 
     public String toString() {

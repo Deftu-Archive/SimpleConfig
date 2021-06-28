@@ -14,5 +14,5 @@ repositories {
 }
 
 dependencies {
-    compile("${project.deps_jsontgm_group}:${project.deps_jsontgm_name}:${project.deps_jsontgm_version}")
+    compile('xyz.matthewtgm:JsonTGM:1.10')
 }
