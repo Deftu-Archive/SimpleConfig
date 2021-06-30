@@ -14,5 +14,5 @@ repositories {
 }
 
 dependencies {
-    compile('xyz.matthewtgm:JsonTGM:2.2')
+    compile('xyz.matthewtgm:JsonTGM:2.2.2')
 }

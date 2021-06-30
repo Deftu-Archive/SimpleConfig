@@ -24,7 +24,7 @@ public class TGMConfig {
         this.name = name;
         this.directory = directory;
 
-        if (!(new File(directory, name + ".json")).exists() || ((JsonObject) JsonReader.read(name, directory)).size() <= 0) {
+        if (!(new File(directory, name + ".json")).exists() || (JsonReader.read(name, directory) instanceof JsonObject && ((JsonObject) JsonReader.read(name, directory)).isEmpty())) {
             configObj = new JsonObject();
             save();
         } else configObj = JsonReader.read(name, directory);
@@ -47,7 +47,7 @@ public class TGMConfig {
         this.directory = directory;
         this.configObj = new JsonObject();
         this.configObj.addAll(configObj);
-        if (!(new File(directory, name + ".json")).exists() || ((JsonObject) JsonReader.read(name, directory)).size() <= 0) save();
+        if (!(new File(directory, name + ".json")).exists() || (JsonReader.read(name, directory) instanceof JsonObject && ((JsonObject) JsonReader.read(name, directory)).isEmpty())) save();
     }
 
     /**
