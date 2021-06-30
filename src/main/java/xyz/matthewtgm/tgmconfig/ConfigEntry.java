@@ -28,4 +28,9 @@ public class ConfigEntry<T> {
         return this;
     }
 
+    public Class<T> getType() {
+        if (value != null) return (Class<T>) value.getClass();
+        return null;
+    }
+
 }
