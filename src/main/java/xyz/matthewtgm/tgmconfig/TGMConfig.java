@@ -31,9 +31,11 @@ public class TGMConfig {
     }
 
     public TGMConfig(String name) {
+        System.out.println(name);
         this.name = name;
         this.directory = null;
         this.configObj = new JsonObject();
+        System.out.println("Config object init: " + (configObj == null ? "null" : "non-null"));
     }
 
     public TGMConfig(String name, JsonObject configObj) {
@@ -118,7 +120,9 @@ public class TGMConfig {
      * @param name The name of the sub-configuration to fetch.
      */
     public TGMConfig getSubConfig(String name) {
-        return new TGMConfig(name, configObj.getObject(name));
+        JsonObject sub = configObj.getObject(name);
+        if (sub == null) sub = new JsonObject();
+        return new TGMConfig(name, sub);
     }
 
     /**
