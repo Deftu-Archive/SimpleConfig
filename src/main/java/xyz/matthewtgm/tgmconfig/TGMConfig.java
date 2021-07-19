@@ -31,11 +31,9 @@ public class TGMConfig {
     }
 
     public TGMConfig(String name) {
-        System.out.println(name);
         this.name = name;
         this.directory = null;
         this.configObj = new JsonObject();
-        System.out.println("Config object init: " + (configObj == null ? "null" : "non-null"));
     }
 
     public TGMConfig(String name, JsonObject configObj) {

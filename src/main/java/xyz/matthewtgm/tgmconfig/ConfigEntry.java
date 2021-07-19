@@ -1,5 +1,7 @@
 package xyz.matthewtgm.tgmconfig;
 
+import xyz.matthewtgm.tgmconfig.annotations.options.BaseOption;
+
 public class ConfigEntry<T> {
 
     private String name;
@@ -8,6 +10,8 @@ public class ConfigEntry<T> {
     public ConfigEntry(String name, T value) {
         this.name = name;
         this.value = value;
+        if (value instanceof BaseOption<?>)
+            this.value = (T) ((BaseOption<?>) value).get();
     }
 
     public String getName() {
@@ -29,7 +33,8 @@ public class ConfigEntry<T> {
     }
 
     public Class<T> getType() {
-        if (value != null) return (Class<T>) value.getClass();
+        if (value != null)
+            return (Class<T>) value.getClass();
         return null;
     }
 
