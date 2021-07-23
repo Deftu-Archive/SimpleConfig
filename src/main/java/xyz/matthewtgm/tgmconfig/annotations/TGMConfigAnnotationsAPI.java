@@ -4,14 +4,13 @@ import xyz.matthewtgm.tgmconfig.ConfigEntry;
 import xyz.matthewtgm.tgmconfig.TGMConfig;
 import xyz.matthewtgm.tgmconfig.annotations.options.BaseOption;
 
+import java.io.File;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 public class TGMConfigAnnotationsAPI {
 
-    public static TGMConfig handle(Object o) {
+    public static TGMConfig handle(TGMConfig config, Object o) {
         try {
-            TGMConfig config = new TGMConfig(o.getClass().getSimpleName());
             Class<?> clz = o.getClass();
             for (Field field : clz.getDeclaredFields()) {
                 field.setAccessible(true);
@@ -31,6 +30,18 @@ public class TGMConfigAnnotationsAPI {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static TGMConfig handle(String name, File directory, Object o) {
+        return handle(new TGMConfig(name, directory), o);
+    }
+
+    public static TGMConfig handle(String name, Object o) {
+        return handle(new TGMConfig(name), o);
+    }
+
+    public static TGMConfig handle(Object o) {
+        return handle(new TGMConfig(o.getClass().getSimpleName()), o);
     }
 
 }
