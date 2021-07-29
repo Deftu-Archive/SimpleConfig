@@ -14,8 +14,12 @@ repositories {
 }
 
 dependencies {
-    implementation(json)
+    /* Testing. */
+    testImplementation(project(':core'))
+    testImplementation(project(':annotations'))
 
+    /* Libraries. */
+    implementation(json)
     implementation(lombok)
     annotationProcessor(lombok)
 }
