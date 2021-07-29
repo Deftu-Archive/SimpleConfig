@@ -5,6 +5,9 @@ plugins {
 group = lib_group
 version = lib_version
 
+group = project.lib_group
+version = project.lib_version
+
 repositories {
     mavenCentral()
     maven {
@@ -14,11 +17,8 @@ repositories {
 }
 
 dependencies {
-    /* Testing. */
-    testImplementation(project(':core'))
-
-    /* Libraries. */
     implementation(json)
+
     implementation(lombok)
     annotationProcessor(lombok)
 }
