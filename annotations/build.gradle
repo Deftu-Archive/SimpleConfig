@@ -5,6 +5,9 @@ plugins {
 group = lib_group
 version = lib_version
 
+group = project.lib_group
+version = project.lib_version
+
 repositories {
     mavenCentral()
     maven {
