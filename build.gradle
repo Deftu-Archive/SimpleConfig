@@ -16,6 +16,7 @@ repositories {
 dependencies {
     /* Testing. */
     testImplementation(project(':core'))
+    testImplementation(project(':settings'))
 
     /* Libraries. */
     implementation(json)

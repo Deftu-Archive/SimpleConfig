@@ -24,7 +24,9 @@ public final class Configuration implements IConfigurable {
             throw new NullPointerException("Configuration file cannot be null!");
         this.file = file;
 
-        if (!file.exists()) {
+        String fileName = file.getName();
+        File real = new File(file.getParentFile(), fileName.endsWith(".json") ? fileName : fileName + ".json");
+        if (!real.exists()) {
             this.config = new JsonObject();
             save();
         } else

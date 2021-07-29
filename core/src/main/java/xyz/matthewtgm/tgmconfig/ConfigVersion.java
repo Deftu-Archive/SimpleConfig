@@ -2,7 +2,7 @@ package xyz.matthewtgm.tgmconfig;
 
 public final class ConfigVersion {
 
-    public static final ConfigVersion CURRENT = new ConfigVersion(3, 0, 0);
+    public static final ConfigVersion CURRENT = new ConfigVersion(3, 1, 0);
 
     public final int major;
     public final int minor;
