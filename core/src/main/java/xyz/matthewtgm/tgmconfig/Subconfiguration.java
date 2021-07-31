@@ -46,6 +46,45 @@ public final class Subconfiguration implements IConfigurable {
     }
 
     /**
+     * Creates and adds a subconfiguration to this configuration.
+     * @param key The key that the subconfiguration will be listed under.
+     * @param object The object that the subconfiguration will use.
+     * @return This configuration.
+     */
+    public Subconfiguration createSubconfiguration(String key, JsonObject object) {
+        config.add(key, new Subconfiguration(this, object).jsonify());
+        return this;
+    }
+
+    /**
+     * Creates and adds a subconfiguration to this configuration.
+     * @param key The key that the subconfiguration will be listed under.
+     * @return This configuration.
+     */
+    public Subconfiguration createSubconfiguration(String key) {
+        return createSubconfiguration(key, new JsonObject());
+    }
+
+    /**
+     * Retrieves a subconfiguration and returns it.
+     * @param key The key that the subsconfiguration is listed under.
+     * @return The gotten subconfiguration.
+     */
+    public Subconfiguration getSubconfiguration(String key) {
+        JsonElement gotten = get(key);
+        if (!gotten.isJsonObject())
+            return null;
+        return new Subconfiguration(this, gotten.getAsJsonObject());
+    }
+
+    public Subconfiguration replaceSubconfiguration(String key, Subconfiguration replacement) {
+        if (!config.hasKey(key))
+            createSubconfiguration(key);
+        config.add(key, replacement);
+        return this;
+    }
+
+    /**
      * Removes an existing entry from the configuration with the specified name.
      * @param name The name of the entry to remove.
      * @return This configuration.

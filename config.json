@@ -1,4 +1,9 @@
 {
-    "real": "real",
-    "owo": false
+    "owo": false,
+    "games": {
+        "first_person_shooters": {
+            "call_of_duty": true
+        }
+    },
+    "real": "real"
 }
