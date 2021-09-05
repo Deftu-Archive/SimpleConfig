@@ -1,4 +1,4 @@
-package xyz.matthewtgm.tgmconfig;
+package xyz.deftu.simpleconfig;
 
 public final class ConfigVersion {
 

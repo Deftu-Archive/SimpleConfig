@@ -1,26 +1,25 @@
-package xyz.matthewtgm.tgmconfig;
+package xyz.deftu.simpleconfig;
 
-import lombok.Getter;
-import xyz.matthewtgm.json.entities.JsonArray;
-import xyz.matthewtgm.json.entities.JsonElement;
-import xyz.matthewtgm.json.entities.JsonObject;
-import xyz.matthewtgm.tgmconfig.interfaces.IConfigurable;
+import xyz.deftu.simpleconfig.interfaces.IConfiguration;
+import xyz.deftu.json.entities.JsonArray;
+import xyz.deftu.json.entities.JsonElement;
+import xyz.deftu.json.entities.JsonObject;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public final class Subconfiguration implements IConfigurable {
+public final class Subconfiguration implements IConfiguration {
 
-    @Getter private final IConfigurable parent;
-    @Getter private final JsonObject config;
+    private final IConfiguration parent;
+    private final JsonObject config;
 
-    public Subconfiguration(IConfigurable parent, JsonObject config) {
+    public Subconfiguration(IConfiguration parent, JsonObject config) {
         this.parent = parent;
         this.config = config;
     }
 
-    public Subconfiguration(IConfigurable parent) {
+    public Subconfiguration(IConfiguration parent) {
         this(parent, new JsonObject());
     }
 
@@ -173,6 +172,14 @@ public final class Subconfiguration implements IConfigurable {
 
     public Subconfiguration getAsSubconfiguration() {
         return this;
+    }
+
+    public IConfiguration getParent() {
+        return parent;
+    }
+
+    public JsonObject asJson() {
+        return config;
     }
 
 }

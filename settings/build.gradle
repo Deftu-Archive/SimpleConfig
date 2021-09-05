@@ -5,19 +5,6 @@ plugins {
 group = lib_group
 version = lib_version
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "JitPack"
-        url = "https://jitpack.io"
-    }
-}
-
 dependencies {
     implementation(project(':core'))
-
-    implementation(json)
-
-    implementation(lombok)
-    annotationProcessor(lombok)
 }

@@ -1,12 +1,14 @@
-import xyz.matthewtgm.tgmconfig.Configuration;
-import xyz.matthewtgm.tgmconfig.Subconfiguration;
+import xyz.deftu.simpleconfig.Configuration;
+import xyz.deftu.simpleconfig.Subconfiguration;
+
+import java.io.File;
 
 public class TestApplication {
 
     public static final TestApplication instance = new TestApplication();
 
     public void start() {
-        Configuration configuration = new Configuration("config", "./");
+        Configuration configuration = new Configuration(new File("./core/config"));
         configuration.createSubconfiguration("games");
         Subconfiguration games = configuration.getSubconfiguration("games");
         games.createSubconfiguration("first_person_shooters");

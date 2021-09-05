@@ -12,3 +12,6 @@ gradle-app.setting
 *.iml
 *.ipr
 *.iws
+
+# SimpleConfig
+/tests/

@@ -1,12 +1,11 @@
-package xyz.matthewtgm.tgmconfig;
+package xyz.deftu.simpleconfig;
 
-import lombok.Getter;
-import xyz.matthewtgm.json.entities.JsonArray;
-import xyz.matthewtgm.json.entities.JsonElement;
-import xyz.matthewtgm.json.entities.JsonObject;
-import xyz.matthewtgm.json.files.JsonReader;
-import xyz.matthewtgm.json.files.JsonWriter;
-import xyz.matthewtgm.tgmconfig.interfaces.IConfigurable;
+import xyz.deftu.simpleconfig.interfaces.IConfiguration;
+import xyz.deftu.json.entities.JsonArray;
+import xyz.deftu.json.entities.JsonElement;
+import xyz.deftu.json.entities.JsonObject;
+import xyz.deftu.json.files.JsonReader;
+import xyz.deftu.json.files.JsonWriter;
 
 import java.io.File;
 import java.util.Collection;
@@ -14,10 +13,10 @@ import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings({"unused"})
-public final class Configuration implements IConfigurable {
+public final class Configuration implements IConfiguration {
 
-    @Getter private final File file;
-    @Getter private final JsonObject config;
+    private final File file;
+    private final JsonObject config;
 
     public Configuration(File file) {
         if (file == null)
@@ -241,6 +240,14 @@ public final class Configuration implements IConfigurable {
 
     public Subconfiguration getAsSubconfiguration() {
         throw new UnsupportedOperationException("Configurations aren't the same as subconfigurations!");
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public JsonObject asJson() {
+        return config;
     }
 
 }

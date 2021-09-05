@@ -5,21 +5,26 @@ plugins {
 group = lib_group
 version = lib_version
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "JitPack"
-        url = "https://jitpack.io"
+allprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+
+        maven {
+            name = 'Requisite Public'
+            url = 'http://maven.deftu.xyz/repository/maven-public/'
+            allowInsecureProtocol = true
+        }
     }
-}
 
-dependencies {
-    /* Testing. */
-    testImplementation(project(':core'))
-    testImplementation(project(':settings'))
+    dependencies {
+        /* Testing. */
+        testImplementation(project(':core'))
+        testImplementation(project(':settings'))
 
-    /* Libraries. */
-    implementation(json)
-    implementation(lombok)
-    annotationProcessor(lombok)
+        /* Libraries. */
+        implementation('xyz.deftu.json:JSON+:2.11')
+        implementation('xyz.deftu.json:JSON+:2.11:files')
+    }
 }
