@@ -1,9 +1,9 @@
-package xyz.deftu.simpleconfig;
+package xyz.qalcyo.simpleconfig;
 
-import xyz.deftu.simpleconfig.interfaces.IConfiguration;
-import xyz.deftu.json.entities.JsonArray;
-import xyz.deftu.json.entities.JsonElement;
-import xyz.deftu.json.entities.JsonObject;
+import xyz.qalcyo.simpleconfig.interfaces.IConfiguration;
+import xyz.qalcyo.json.entities.JsonArray;
+import xyz.qalcyo.json.entities.JsonElement;
+import xyz.qalcyo.json.entities.JsonObject;
 
 import java.util.Collection;
 import java.util.Map;
@@ -172,6 +172,14 @@ public final class Subconfiguration implements IConfiguration {
 
     public Subconfiguration getAsSubconfiguration() {
         return this;
+    }
+
+    public Configuration findParentConfiguration() {
+        IConfiguration parent;
+        while ((parent = this.parent.getParent()) != null && parent instanceof Configuration) {
+            return parent.getAsConfiguration();
+        }
+        return null;
     }
 
     public IConfiguration getParent() {

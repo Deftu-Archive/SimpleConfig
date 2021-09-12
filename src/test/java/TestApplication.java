@@ -1,5 +1,5 @@
-import xyz.deftu.simpleconfig.Configuration;
-import xyz.deftu.simpleconfig.Subconfiguration;
+import xyz.qalcyo.simpleconfig.Configuration;
+import xyz.qalcyo.simpleconfig.Subconfiguration;
 
 import java.io.File;
 
@@ -13,8 +13,10 @@ public class TestApplication {
         Subconfiguration games = configuration.getSubconfiguration("games");
         games.createSubconfiguration("first_person_shooters");
         Subconfiguration firstPersonShooters = games.getSubconfiguration("first_person_shooters");
-        firstPersonShooters.add("call_of_duty", true);
-        configuration.save();
+
+        System.out.println(firstPersonShooters);
+        Configuration parent = firstPersonShooters.findParentConfiguration();
+        System.out.println(parent);
     }
 
     public static void main(String[] args) {

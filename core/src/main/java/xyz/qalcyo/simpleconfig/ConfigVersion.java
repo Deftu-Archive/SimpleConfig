@@ -1,4 +1,4 @@
-package xyz.deftu.simpleconfig;
+package xyz.qalcyo.simpleconfig;
 
 public final class ConfigVersion {
 

@@ -1,6 +1,6 @@
-package xyz.deftu.simpleconfig.settings;
+package xyz.qalcyo.simpleconfig.settings;
 
-import xyz.deftu.simpleconfig.interfaces.IConfiguration;
+import xyz.qalcyo.simpleconfig.interfaces.IConfiguration;
 
 public class ConfigurationSettings {
 

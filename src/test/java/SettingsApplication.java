@@ -1,6 +1,6 @@
-import xyz.deftu.simpleconfig.Configuration;
-import xyz.deftu.simpleconfig.settings.ConfigurationSettings;
-import xyz.deftu.simpleconfig.settings.impl.BooleanSetting;
+import xyz.qalcyo.simpleconfig.Configuration;
+import xyz.qalcyo.simpleconfig.settings.ConfigurationSettings;
+import xyz.qalcyo.simpleconfig.settings.impl.BooleanSetting;
 
 import java.io.File;
 

@@ -1,6 +1,6 @@
-package xyz.deftu.simpleconfig.settings;
+package xyz.qalcyo.simpleconfig.settings;
 
-import xyz.deftu.json.entities.JsonObject;
+import xyz.qalcyo.json.entities.JsonObject;
 
 public abstract class BaseSetting<T> {
 

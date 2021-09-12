@@ -12,7 +12,7 @@ allprojects {
         mavenCentral()
 
         maven {
-            name = 'Requisite Public'
+            name = 'Qalcyo'
             url = 'http://maven.deftu.xyz/repository/maven-public/'
             allowInsecureProtocol = true
         }
@@ -24,7 +24,7 @@ allprojects {
         testImplementation(project(':settings'))
 
         /* Libraries. */
-        implementation('xyz.deftu.json:JSON+:2.11')
-        implementation('xyz.deftu.json:JSON+:2.11:files')
+        implementation('xyz.qalcyo.json:JSON+:2.12')
+        implementation('xyz.qalcyo.json:JSON+:2.12:files')
     }
 }

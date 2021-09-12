@@ -1,11 +1,11 @@
-package xyz.deftu.simpleconfig;
+package xyz.qalcyo.simpleconfig;
 
-import xyz.deftu.simpleconfig.interfaces.IConfiguration;
-import xyz.deftu.json.entities.JsonArray;
-import xyz.deftu.json.entities.JsonElement;
-import xyz.deftu.json.entities.JsonObject;
-import xyz.deftu.json.files.JsonReader;
-import xyz.deftu.json.files.JsonWriter;
+import xyz.qalcyo.simpleconfig.interfaces.IConfiguration;
+import xyz.qalcyo.json.entities.JsonArray;
+import xyz.qalcyo.json.entities.JsonElement;
+import xyz.qalcyo.json.entities.JsonObject;
+import xyz.qalcyo.json.files.JsonReader;
+import xyz.qalcyo.json.files.JsonWriter;
 
 import java.io.File;
 import java.util.Collection;
@@ -142,6 +142,10 @@ public final class Configuration implements IConfiguration {
         if (!gotten.isJsonObject())
             return null;
         return new Subconfiguration(this, gotten.getAsJsonObject());
+    }
+
+    public IConfiguration getParent() {
+        return null;
     }
 
     public Configuration replaceSubconfiguration(String key, Subconfiguration replacement) {

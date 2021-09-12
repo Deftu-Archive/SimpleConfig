@@ -1,4 +1,6 @@
-rootProject.name = 'TGMConfig'
-include 'core'
-include 'settings'
+rootProject.name = lib_name
 
+include(
+        'core',
+        'settings'
+)

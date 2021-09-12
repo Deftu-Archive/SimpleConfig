@@ -1,4 +1,4 @@
-package xyz.deftu.simpleconfig.settings.impl;
+package xyz.qalcyo.simpleconfig.settings.impl;
 
 public class FloatSetting extends NumberSetting<Float> {
 

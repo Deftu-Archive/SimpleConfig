@@ -1,8 +1,8 @@
-package xyz.deftu.simpleconfig.interfaces;
+package xyz.qalcyo.simpleconfig.interfaces;
 
-import xyz.deftu.json.entities.JsonObject;
-import xyz.deftu.simpleconfig.Configuration;
-import xyz.deftu.simpleconfig.Subconfiguration;
+import xyz.qalcyo.simpleconfig.Configuration;
+import xyz.qalcyo.simpleconfig.Subconfiguration;
+import xyz.qalcyo.json.entities.JsonObject;
 
 public interface IConfiguration {
     Configuration getAsConfiguration();
@@ -21,5 +21,6 @@ public interface IConfiguration {
     }
     Subconfiguration getSubconfiguration(String key);
 
+    IConfiguration getParent();
     JsonObject jsonify();
 }
