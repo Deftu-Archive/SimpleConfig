@@ -22,9 +22,5 @@ allprojects {
         /* Testing. */
         testImplementation(project(':core'))
         testImplementation(project(':settings'))
-
-        /* Libraries. */
-        implementation('xyz.qalcyo.json:JSON+:2.12')
-        implementation('xyz.qalcyo.json:JSON+:2.12:files')
     }
 }

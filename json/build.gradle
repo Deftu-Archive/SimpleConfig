@@ -1,0 +1,14 @@
+repositories {
+    maven {
+        name = "Qalcyo"
+        url = "http://maven.deftu.xyz/repository/maven-public/"
+        allowInsecureProtocol = true
+    }
+}
+
+dependencies {
+    implementation(project(":core"))
+
+    implementation("xyz.qalcyo.json:JSON+:2.12")
+    implementation("xyz.qalcyo.json:JSON+:2.12:files")
+}
