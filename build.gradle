@@ -17,10 +17,4 @@ allprojects {
             allowInsecureProtocol = true
         }
     }
-
-    dependencies {
-        /* Testing. */
-        testImplementation(project(':core'))
-        testImplementation(project(':settings'))
-    }
 }

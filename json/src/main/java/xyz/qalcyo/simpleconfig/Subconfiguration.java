@@ -2,48 +2,28 @@ package xyz.qalcyo.simpleconfig;
 
 import xyz.qalcyo.json.entities.JsonElement;
 import xyz.qalcyo.json.entities.JsonObject;
-import xyz.qalcyo.json.files.JsonReader;
-import xyz.qalcyo.json.files.JsonWriter;
 import xyz.qalcyo.simpleconfig.exceptions.InvalidTypeException;
 import xyz.qalcyo.simpleconfig.exceptions.SubconfigurationNotFoundException;
 
-import java.io.File;
+public class Subconfiguration implements ISubconfiguration<JsonElement> {
 
-public class Configuration implements IConfiguration<JsonElement> {
-
-    private final File file;
+    private final IConfiguration<JsonElement> parent;
     private final JsonObject object;
 
-    public Configuration(File file, JsonObject object) {
-        this.file = file;
+    public Subconfiguration(IConfiguration<JsonElement> parent, JsonObject object) {
+        this.parent = parent;
         this.object = object;
     }
 
-    public Configuration(File file) {
-        this(file, new JsonObject());
+    public Subconfiguration(IConfiguration<JsonElement> parent) {
+        this(parent, new JsonObject());
     }
 
-    public Configuration(String name, File directory, JsonObject object) {
-        this(new File(directory, name), object);
+    public Subconfiguration copy() {
+        return new Subconfiguration(parent, object);
     }
 
-    public Configuration(String name, File directory) {
-        this(name, directory, new JsonObject());
-    }
-
-    public Configuration(String name, JsonObject object) {
-        this(new File(name), object);
-    }
-
-    public Configuration(String name) {
-        this(name, new JsonObject());
-    }
-
-    public Configuration copy() {
-        return new Configuration(file, object);
-    }
-
-    public <T> Configuration add(String key, T value) {
+    public <T> Subconfiguration add(String key, T value) {
         object.add(key, value);
         return this;
     }
@@ -65,22 +45,16 @@ public class Configuration implements IConfiguration<JsonElement> {
         return new Subconfiguration(this, found.getAsJsonObject());
     }
 
-    public IConfiguration<JsonElement> save() {
-        JsonWriter.write(file.getName(), object, file.getParentFile(), true);
+    public Subconfiguration save() {
+        parent.save();
         return this;
     }
 
     public boolean sync() {
-        JsonObject saved = JsonReader.read(file.getName(), file.getParentFile());
-        if (!saved.equals(object)) {
-            object.clear();
-            object.addAll(saved);
-            return true;
-        }
-        return false;
+        return parent.sync();
     }
 
-    public IConfiguration<JsonElement> clear() {
+    public Subconfiguration clear() {
         object.clear();
         return this;
     }
@@ -90,7 +64,7 @@ public class Configuration implements IConfiguration<JsonElement> {
     }
 
     public long getAsLong(String key) {
-        return object.getAsShort(key);
+        return object.getAsLong(key);
     }
 
     public short getAsShort(String key) {
@@ -134,11 +108,11 @@ public class Configuration implements IConfiguration<JsonElement> {
     }
 
     public boolean isApex() {
-        return true;
+        return false;
     }
 
-    public Configuration getParent() {
-        return this;
+    public IConfiguration<JsonElement> getParent() {
+        return parent;
     }
 
     public String asString() {
@@ -146,31 +120,26 @@ public class Configuration implements IConfiguration<JsonElement> {
     }
 
     public Configuration asConfiguration() {
-        return this;
+        throw new InvalidTypeException("A subconfiguration cannot be converted to a configuration, please refer to Subconfiguration#getApex.");
     }
 
     public Subconfiguration asSubconfiguration() {
-        throw new InvalidTypeException("A configuration cannot be converted to a subconfiguration.");
+        return this;
     }
 
     public JsonObject asObject() {
         return object;
     }
 
+    public IConfiguration<JsonElement> getApex() {
+        IConfiguration<JsonElement> parent;
+        while ((parent = this.parent.getParent()) != null && !parent.isApex())
+            return parent.asConfiguration();
+        return null;
+    }
+
     public String toString() {
         return asString();
-    }
-
-    public static Configuration empty(File file) {
-        return new Configuration(file);
-    }
-
-    public static Configuration empty(String name) {
-        return new Configuration(new File("./", name));
-    }
-
-    public static Configuration of(File file, JsonObject object) {
-        return new Configuration(file, object);
     }
 
 }

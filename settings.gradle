@@ -2,7 +2,7 @@ rootProject.name = lib_name
 
 include(
         'core',
-        'settings'
+        'json',
+        'toml'
 )
-include 'json'
 
